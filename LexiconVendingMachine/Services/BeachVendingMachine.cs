@@ -30,9 +30,12 @@ namespace LexiconVendingMachine.Services
             return productList;
         }
 
-        public int EndTransaction()
+        public Dictionary<int,int> EndTransaction()
         {
-            return moneyPool;
+            Dictionary<int, int> changeInDenominations = new Dictionary<int, int>();
+            changeInDenominations = BreakDownChangeToDenominations(moneyPool);
+            moneyPool = 0;
+            return changeInDenominations;
         }
 
         public string InsertMoney(int money)
@@ -69,6 +72,24 @@ namespace LexiconVendingMachine.Services
             }
 
             return sbProducts.ToString();
+        }
+
+        public Dictionary<int,int> BreakDownChangeToDenominations(int totalChangeAmount)
+        {
+            Dictionary<int, int> changeInDenominations = new Dictionary<int, int>();
+            int tempRemaingAmount = totalChangeAmount;
+            int numberOfDenominations = 0;
+
+            for (int i = denominations.Length - 1; i > -1 ; i--)
+            {
+                numberOfDenominations = tempRemaingAmount / denominations[i];
+                changeInDenominations.Add(denominations[i], numberOfDenominations);
+                tempRemaingAmount = tempRemaingAmount - numberOfDenominations * denominations[i];
+
+            }
+
+            return changeInDenominations;
+
         }
     }
 }

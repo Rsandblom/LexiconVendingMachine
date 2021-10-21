@@ -1,6 +1,7 @@
 ﻿using LexiconVendingMachine.Models.Products;
 using LexiconVendingMachine.Services;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace LexiconVendingMachine.Tests
@@ -79,13 +80,21 @@ namespace LexiconVendingMachine.Tests
         public void EndingPurchaseShouldReturnCorrectAmountOfMoney()
         {
             BeachVendingMachine vendingMachine = new BeachVendingMachine();
-            vendingMachine.InsertMoney(50);
-
+            vendingMachine.InsertMoney(1000);
             Product snack = vendingMachine.Purchase(1);
+            Dictionary<int, int> changeInDenominations = new Dictionary<int, int>();
 
-            int expectedRetunedAmount = 30;
+            changeInDenominations = vendingMachine.EndTransaction();
 
-            Assert.Equal(expectedRetunedAmount, vendingMachine.EndTransaction());
+            int numberOf500s = 1;
+            int numberOf100s = 4;
+            int numberOf50s = 1;
+            int numberOf20s = 1;
+
+            Assert.Equal(numberOf500s, changeInDenominations[500]);
+            Assert.Equal(numberOf100s, changeInDenominations[100]);
+            Assert.Equal(numberOf50s, changeInDenominations[50]);
+            Assert.Equal(numberOf20s, changeInDenominations[20]);
         }
 
     }

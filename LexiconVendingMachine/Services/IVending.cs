@@ -10,6 +10,6 @@ namespace LexiconVendingMachine.Services
         public Product Purchase(int productIndex);
         public string ShowAll();
         public string InsertMoney(int money);
-        public int EndTransaction();
+        public Dictionary<int,int> EndTransaction();
     }
 }
